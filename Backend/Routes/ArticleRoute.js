@@ -1,0 +1,11 @@
+import express from "express";
+import { addArticle } from "../Controllers/ArticleController.js";
+import { getallarticles } from "../Controllers/ArticleController.js";
+import { getsinglearticle } from "../Controllers/ArticleController.js";
+import { deletearticle } from "../Controllers/ArticleController.js";
+const router =express.Router();
+router.post("/", addArticle);
+router.get("/get-all", getallarticles);
+router.get("/:id", getsinglearticle);
+router.delete("/:id", deletearticle);
+export default router;
