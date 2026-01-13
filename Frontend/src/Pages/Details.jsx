@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate,useParams } from "react-router-dom";
+import EditArticle from "./EditArticle";
 export default function Details(){
      const { id } = useParams(); 
      const navigate=useNavigate();
@@ -47,8 +48,13 @@ const handleDelete = () => {
 
       <button 
       onClick={handleDelete}
-      className="border-4 bg-[#875D4A] text-white w-40 my-5 py-2">
+      className="border-4 bg-[#875D4A] text-white w-40 py-2">
         delete
+      </button>
+       <button 
+       onClick={() => navigate(`/edit/${article._id}`)}
+      className="border-4 bg-[#875D4A] text-white w-40 py-2 mb-5">
+        Update
       </button>
     </div>
     )
