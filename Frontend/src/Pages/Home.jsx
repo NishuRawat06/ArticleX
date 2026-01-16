@@ -1,7 +1,9 @@
 import React from "react";
 import homeimg from "../assets/homeimg.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="w-full px-6 py-12 bg-[#F5F0E6]">
       
@@ -23,7 +25,7 @@ export default function Home() {
             Anyone can publish their article on our website.
           </p>
 
-          <button className="px-6 py-3 bg-white text-black rounded-md">
+          <button className="px-6 py-3 bg-white text-black rounded-md" onClick={() => navigate("/AddArticle")}>
             Start Now
           </button>
         </div>

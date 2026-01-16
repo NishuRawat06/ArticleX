@@ -1,12 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+
 export default function AddNew() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [Author, setAuthor] = useState("");
+
   const handleSubmit = async (e) => {
-    console.log(Author, title, body);
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/api/articles", {
@@ -14,54 +14,80 @@ export default function AddNew() {
         title,
         body,
       });
-      alert("Article added");
+      alert("Article added successfully!");
       setAuthor("");
       setTitle("");
       setBody("");
     } catch (error) {
       console.log(error);
+      alert("Failed to add article.");
     }
   };
+
   return (
-    <div className="flex flex-col items-center bg-[#F5F0E6] gap-7">
-      <h1 className="font-bold text-3xl text-[#875D4A]">Creating Article</h1>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-        <div className="flex flex-col">
-          <label className="text-2xl font-bold text-[#875D4A]">
-            Author Name
-          </label>
-          <input
-            type="text"
-            className="border-2"
-            value={Author}
-            onChange={(e) => setAuthor(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex-col">
-          <label className="text-2xl font-bold text-[#875D4A]">
-            Article Title
-          </label>
-          <input
-            type="text"
-            className="border-2"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex-col">
-          <label className="text-2xl font-bold text-[#875D4A]">
-            Article Body
-          </label>
-          <textarea
-            className="border-2"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-          ></textarea>
-        </div>
-        <button className="border-4 bg-[#875D4A] text-white" type="submit">
-          Add Article
-        </button>
-      </form>
+    <div className="min-h-screen bg-[#F5F0E6] flex justify-center items-center px-4">
+      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 relative">
+
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#875D4A] mb-4 text-center">
+          Create Article
+        </h1>
+
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+
+          {/* Author */}
+          <div className="flex flex-col">
+            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
+               Author
+            </label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="border border-[#875D4A]/30 rounded-lg px-3 py-1 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition"
+              value={Author}
+              onChange={(e) => setAuthor(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Title */}
+          <div className="flex flex-col">
+            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
+               Title
+            </label>
+            <input
+              type="text"
+              placeholder="Article title"
+              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Body */}
+          <div className="flex flex-col">
+            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
+               Body
+            </label>
+            <textarea
+              placeholder="Write your article..."
+              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 min-h-[100px] sm:min-h-[120px] focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition resize-none"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              required
+            ></textarea>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="bg-[#875D4A] text-white font-bold py-2 rounded-lg text-sm sm:text-base hover:bg-[#a0755e] transition"
+          >
+            Add Article
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }
