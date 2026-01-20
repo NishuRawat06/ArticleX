@@ -71,7 +71,7 @@ export default function AddNew() {
             </label>
             <textarea
               placeholder="Write your article..."
-              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 min-h-[100px] sm:min-h-[120px] focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition resize-none"
+              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 min-h-25 sm:min-h-30 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition resize-none"
               value={body}
               onChange={(e) => setBody(e.target.value)}
               required
