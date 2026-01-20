@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const ArticleSchema = new mongoose.Schema({
   Author: {
     type: String,
-    require: true,
+    required: true,
   },
   title: {
     type: String,
@@ -10,7 +10,7 @@ const ArticleSchema = new mongoose.Schema({
   },
   body: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 export default mongoose.model("Article", ArticleSchema);
