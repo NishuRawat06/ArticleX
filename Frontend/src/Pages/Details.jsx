@@ -7,7 +7,7 @@ export default function Details() {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/articles/${id}`)
+    fetch(`${import.meta.env.VITE_API}/api/articles/${id}`)
       .then(res => res.json())
       .then(data => setArticle(data))
       .catch(err => console.error(err));
@@ -18,7 +18,7 @@ export default function Details() {
   }
 
   const handleDelete = () => {
-    fetch(`http://localhost:5000/api/articles/${id}`, {
+    fetch(`${import.meta.env.VITE_API}/api/articles/${id}`, {
       method: "DELETE",
     })
       .then(res => {

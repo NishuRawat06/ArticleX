@@ -13,7 +13,7 @@ export default function EditArticle() {
     if (!id) return;
     const fetchArticle = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/articles/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_API}/api/articles/${id}`);
         const data = await res.json();
         setTitle(data.title || "");
         setContent(data.body || "");
@@ -31,7 +31,7 @@ export default function EditArticle() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/articles/update/${id}`, {
+      await axios.put(`${import.meta.env.VITE_API}/api/articles/update/${id}`, {
         title: Title,
         body: Content,
         author: Author, // Keep author same

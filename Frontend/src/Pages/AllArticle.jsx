@@ -10,14 +10,16 @@ export default function AllArticle() {
     const fetcharticles = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/articles/get-all"
+          `${import.meta.env.VITE_API}/api/articles/get-all`
         );
         setArticles(res.data);
+        console.log(res, res.data)
       } catch (error) {
         console.log(error);
       }
     };
     fetcharticles();
+    console.log(articles);
   }, []);
 
   return (

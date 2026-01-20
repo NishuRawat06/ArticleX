@@ -9,7 +9,7 @@ export default function AddNew() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/articles", {
+      await axios.post(`${import.meta.env.VITE_API}/api/articles`, {
         Author,
         title,
         body,
