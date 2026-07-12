@@ -1,91 +1,157 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function AddNew() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [Author, setAuthor] = useState("");
+  const [author, setAuthor] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap";
+    document.head.appendChild(link);
+    return () => document.head.removeChild(link);
+  }, []);
+
+  const wordCount = body.trim() === "" ? 0 : body.trim().split(/\s+/).length;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    setStatus(null);
     try {
       await axios.post(`${import.meta.env.VITE_API}/api/articles`, {
-        Author,
+        Author: author,
         title,
         body,
       });
-      alert("Article added successfully!");
+      setStatus({ type: "success", message: "Published — it's live now." });
       setAuthor("");
       setTitle("");
       setBody("");
     } catch (error) {
       console.log(error);
-      alert("Failed to add article.");
+      setStatus({
+        type: "error",
+        message: "Couldn't publish. Check your connection and try again.",
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
+  const fieldWrap = "relative";
+  const fieldUnderlineBase =
+    "border-b border-[#8B8578]/30 group-focus-within:border-[#8B8578]/0";
+  const fieldUnderlineGrow =
+    "absolute left-0 -bottom-[1px] h-[1.5px] w-0 bg-[#C9A227] transition-all duration-300 group-focus-within:w-full";
 
   return (
-    <div className="min-h-screen bg-[#F5F0E6] flex justify-center items-center px-4">
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 relative">
-
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#875D4A] mb-4 text-center">
-          Create Article
+    <div className="min-h-screen bg-black flex justify-center items-center px-4 py-10">
+      <div className="w-full max-w-xl">
+        <h1
+          className="text-[#FBF8F2] text-3xl sm:text-4xl mb-8"
+          style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}
+        >
+          Write your <span className="italic text-[#C9A227]">article</span>
         </h1>
 
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-
-          {/* Author */}
-          <div className="flex flex-col">
-            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
-               Author
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-7 bg-[#0B0D12] border border-[#FBF8F2]/10 rounded-xl p-6 sm:p-8 shadow-2xl shadow-black/60"
+        >
+          <div className={`${fieldWrap} group flex flex-col gap-2`}>
+            <label
+              className="text-[#C9A227] text-xs tracking-[0.15em] uppercase"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              Byline
             </label>
             <input
               type="text"
-              placeholder="Enter your name"
-              className="border border-[#875D4A]/30 rounded-lg px-3 py-1 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition"
-              value={Author}
+              placeholder="Your name"
+              className={`bg-transparent ${fieldUnderlineBase} text-[#FBF8F2] px-1 py-2 focus:outline-none transition-colors placeholder:text-[#6E6C64]`}
+              style={{ fontFamily: "'Inter', sans-serif" }}
+              value={author}
               onChange={(e) => setAuthor(e.target.value)}
               required
             />
+            <span className={fieldUnderlineGrow} />
           </div>
-
-          {/* Title */}
-          <div className="flex flex-col">
-            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
-               Title
+          <div className={`${fieldWrap} group flex flex-col gap-2`}>
+            <label
+              className="text-[#C9A227] text-xs tracking-[0.15em] uppercase"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              Headline
             </label>
             <input
               type="text"
-              placeholder="Article title"
-              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition"
+              placeholder="Give it a strong title"
+              className={`bg-transparent ${fieldUnderlineBase} text-[#FBF8F2] text-lg px-1 py-2 focus:outline-none transition-colors placeholder:text-[#6E6C64]`}
+              style={{ fontFamily: "'Fraunces', serif", fontWeight: 500 }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
+            <span className={fieldUnderlineGrow} />
           </div>
-
-          {/* Body */}
-          <div className="flex flex-col">
-            <label className="text-sm sm:text-base font-semibold text-[#875D4A] mb-1">
-               Body
-            </label>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <label
+                className="text-[#C9A227] text-xs tracking-[0.15em] uppercase"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              >
+                Body
+              </label>
+              <span
+                className="text-[#6E6C64] text-xs"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              >
+                {wordCount} {wordCount === 1 ? "word" : "words"}
+              </span>
+            </div>
             <textarea
-              placeholder="Write your article..."
-              className="border border-[#875D4A]/30 rounded-lg px-3 py-2 min-h-25 sm:min-h-30 focus:outline-none focus:ring-1 focus:ring-[#875D4A] transition resize-none"
+              placeholder="Start writing..."
+              className="bg-transparent border border-[#8B8578]/25 rounded-md text-[#FBF8F2] px-3 py-3 min-h-[220px] focus:outline-none focus:border-[#C9A227] focus:shadow-[0_0_0_3px_rgba(201,162,39,0.12)] transition-all resize-none placeholder:text-[#6E6C64]"
+              style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}
               value={body}
               onChange={(e) => setBody(e.target.value)}
               required
-            ></textarea>
+            />
           </div>
+          {status && (
+            <p
+              className={`text-sm -mt-2 ${
+                status.type === "success" ? "text-[#C9A227]" : "text-[#E08B7D]"
+              }`}
+              style={{ fontFamily: "'Inter', sans-serif" }}
+              role="status"
+            >
+              {status.message}
+            </p>
+          )}
 
-          {/* Submit Button */}
           <button
             type="submit"
-            className="bg-[#875D4A] text-white font-bold py-2 rounded-lg text-sm sm:text-base hover:bg-[#a0755e] transition"
+            disabled={submitting}
+            className="group inline-flex items-center justify-center gap-2 bg-[#C9A227] text-[#14171F] font-medium py-3 rounded-md hover:bg-[#DBB84A] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Add Article
+            {submitting && (
+              <span className="w-3.5 h-3.5 rounded-full border-2 border-[#14171F]/40 border-t-[#14171F] animate-spin" />
+            )}
+            {submitting ? "Publishing..." : "Publish article"}
+            {!submitting && (
+              <span className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            )}
           </button>
-
         </form>
       </div>
     </div>
