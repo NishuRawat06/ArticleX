@@ -2,14 +2,23 @@ import Article from "../Models/Article.js";
 import mongoose from "mongoose";
 export const addArticle = async (req, res) => {
   try {
-    const article = await Article.create(req.body);
+    console.log("Connection state:", mongoose.connection.readyState);
+    console.log("Body:", req.body);
+
+    const article = new Article(req.body);
+
+    console.log("Model created");
+
+    await article.save();
+
+    console.log("Saved");
+
     res.status(201).json(article);
   } catch (error) {
-    console.log(error)
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
-//fetch all articles
 export const getallarticles = async (req, res) => {
   try {
     const articles = await Article.find();
@@ -19,7 +28,6 @@ export const getallarticles = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch articles" });
   }
 };
-//fetch single article
 export const getsinglearticle = async (req, res) => {
   try {
     const article = await Article.findById(req.params.id);
@@ -29,7 +37,6 @@ export const getsinglearticle = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch article" });
   }
 };
-//delete article
 export const deletearticle = async (req, res) => {
   try {
     const article = await Article.findByIdAndDelete(req.params.id);
@@ -41,7 +48,6 @@ export const deletearticle = async (req, res) => {
     res.status(500).json({ message: "Error deleting article" });
   }
 };
-//update article
 export const updatearticle = async (req, res) => {
   try {
     const article = await Article.findByIdAndUpdate(req.params.id, req.body, {
