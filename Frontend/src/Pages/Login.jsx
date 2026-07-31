@@ -42,7 +42,7 @@ export default function Login() {
         email,
         password,
       });
-      if (response.status > 399) {
+      if (response.status < 400) {
         console.log(response)
         setLoggedin(
           response.data.user
