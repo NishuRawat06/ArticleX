@@ -43,6 +43,7 @@ export default function Login() {
         password,
       });
       if (response.status > 399) {
+        console.log(response)
         setLoggedin(
           response.data.user
             ? {

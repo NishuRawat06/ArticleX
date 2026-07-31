@@ -21,6 +21,7 @@ export default function App() {
     setState("loading");
     const res = await Fetch("/auth/verifyToken");
     if (res.status > 399) {
+      console.log(res)
       setLoggedin({
         id: res.data.user._id,
         user: res.data.user.user,
