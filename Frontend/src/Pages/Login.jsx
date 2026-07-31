@@ -42,6 +42,7 @@ export default function Login() {
         email,
         password,
       });
+      console.log(response)
       if (response.statusText.toUpperCase() === "OK") {
         setLoggedin(
           response.data.user
