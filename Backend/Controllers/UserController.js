@@ -77,7 +77,7 @@ export const Signin = async (req, res) => {
     });
     res.status(200).json({
       message: "Authentication successful! Passwords match.",
-      userId: existingUser._id,
+      user: existingUser,
     });
   } catch (error) {
     console.log(error);
@@ -265,8 +265,7 @@ export const verifyToken = async (req, res, next) => {
       return res.status(423).json({ message: "invalid token " });
     }
     // return res.status(200).json({ message: "token verified" });
-    req.userId = id;
-    req.userData = { user: user.user, email: user.email };
+    req.user= user
     next();
   } catch (error) {
     console.log(error);

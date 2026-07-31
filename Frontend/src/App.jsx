@@ -20,9 +20,9 @@ export default function App() {
   async function verifyToken() {
     setState("loading");
     const res = await Fetch("/auth/verifyToken");
-    if (res.statusText.toUpperCase() === "OK") {
+    if (res.status > 399) {
       setLoggedin({
-        id: res.data.userId,
+        id: res.data.user._id,
         user: res.data.user.user,
         email: res.data.user.email,
       });

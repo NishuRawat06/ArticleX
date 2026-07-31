@@ -19,8 +19,7 @@ router.get("/refreshToken", refreshToken);
 router.get("/verifyToken", verifyToken, (req, res) =>
   res.status(200).json({
     message: "token verified",
-    userId: req.userId,
-    user: req.userData,
+    user: req.user
   }),
 );
 router.get("/logout", logout);

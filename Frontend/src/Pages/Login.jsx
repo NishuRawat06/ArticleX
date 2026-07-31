@@ -42,12 +42,11 @@ export default function Login() {
         email,
         password,
       });
-      console.log(response)
-      if (response.statusText.toUpperCase() === "OK") {
+      if (response.status > 399) {
         setLoggedin(
           response.data.user
             ? {
-                id: response.data.userId,
+                id: response.data.user._id,
                 user: response.data.user.user,
                 email: response.data.user.email,
               }
