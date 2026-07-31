@@ -43,9 +43,8 @@ export default function Login() {
         password,
       });
       if (response.status < 400) {
-        console.log(response)
         setLoggedin(
-          response.data.user
+          forgotPswd !== true
             ? {
                 id: response.data.user._id,
                 user: response.data.user.user,
@@ -62,10 +61,9 @@ export default function Login() {
             : "Reset link sent on Email",
       });
 
-      // Clear form
       setEmail("");
       setPassword("");
-      navigate("/AddArticle");
+   forgotPswd !== true && navigate("/AddArticle");
     } catch (error) {
       console.log("Signup error:", error);
 
