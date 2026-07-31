@@ -1,4 +1,4 @@
-const isProduction = false;
+const isProduction = NODE_ENV !== "dev";
 
 const defaultOptions = {
   httpOnly: true,
